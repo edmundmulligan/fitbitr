@@ -46,11 +46,25 @@ oauth_token <- function(key=NULL, secret=NULL, callback=NULL, locale=NULL, langu
   )
 }
 
-create_endpoint <- function()
+#' @title Generate an endpoint for a service
+#'
+#' @description
+#'   Generate an endpoint for either fitbit or oura
+#'
+#' @param service The service the endpoint is for
+#'   Possible values: c(fitbit | oura)
+create_endpoint <- function(service = "fitbit")
 {
-  request <- "https://api.fitbit.com/oauth2/token"
-  authorize <- "https://www.fitbit.com/oauth2/authorize"
-  access <- "https://api.fitbit.com/oauth2/token"
+  if (service == "fitbit") {
+    request <- "https://api.fitbit.com/oauth2/token"
+    authorize <- "https://www.fitbit.com/oauth2/authorize"
+    access <- "https://api.fitbit.com/oauth2/token"
+  }
+  if (service == "oura") {
+    request <- "https://api.ouraring.com/oauth/token"
+    authorize <- "https://cloud.ouraring.com/oauth/authorize"
+    access <- "https://api.ouraring.com/oauth/token"
+  }
   httr::oauth_endpoint(request, authorize, access)
 }
 
